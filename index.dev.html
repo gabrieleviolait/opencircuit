@@ -22,8 +22,9 @@ html{background:#090b10}body{min-width:760px}
 .boot-screen{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background-color:#06080c;background-image:linear-gradient(#7896ff0a 1px,transparent 1px),linear-gradient(90deg,#7896ff0a 1px,transparent 1px),radial-gradient(circle at 50% 45%,#10213a 0,transparent 58%);background-size:36px 36px,36px 36px,100% 100%;color:#eef2ff;transition:opacity .22s ease}.boot-screen>div{width:min(520px,calc(100vw - 48px));padding:0;background:transparent;text-align:left;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.boot-kicker{display:flex;align-items:center;gap:10px;margin-bottom:14px;color:#71809a;font-size:10px;letter-spacing:.14em}.boot-kicker b{color:#75e7b7;font-weight:700}.boot-screen strong{display:block;margin:0 0 10px;font-size:clamp(25px,5vw,40px);line-height:1;font-weight:650;letter-spacing:-.04em}.boot-screen span{display:block;color:#8794aa;font-size:10px;line-height:1.5}.boot-screen .boot-status{display:flex;align-items:center;gap:8px;letter-spacing:.12em}.boot-status::before{content:"";width:5px;height:5px;background:#7896ff;box-shadow:0 0 12px #7896ff}.boot-screen small{display:block;color:#536178;margin-top:13px;font-size:9px;letter-spacing:.16em}.boot-loader{position:relative;width:100%;height:2px;margin-top:22px;overflow:hidden;background:#182131}.boot-loader::after{content:"";position:absolute;inset:0 auto 0 0;width:34%;background:linear-gradient(90deg,transparent,#7896ff 55%,#65e4b1);animation:boot-scan 1.15s ease-in-out infinite}@keyframes boot-scan{from{transform:translateX(-110%)}to{transform:translateX(300%)}}.boot-error .boot-loader{display:none}.boot-error strong{color:#ff7f8b}.boot-error span{color:#b4bed0;font-size:11px;letter-spacing:0}.boot-error small{letter-spacing:.04em}
 .help-strip{padding:8px 10px;border-top:1px solid var(--border);background:#0c0f15;color:#758198;font-size:9px;line-height:1.45}.help-strip b{color:#b7c2d4}
 #appVersion{opacity:.65}.panel-tabs{position:relative}.tab-page{overflow:hidden}
-#codeEditor,#hexEditor{min-height:180px}.instrument-stack{min-height:0}
+#codeEditor,#hexEditor{min-height:180px}.instrument-stack{min-height:0}.menu-label{padding:7px 8px 4px;color:#6f7d93;font:9px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.16em}.menu-separator{height:1px;margin:5px 0;background:#252b37}
 @media(max-width:900px){body{min-width:0;overflow:auto}#app{min-width:760px}.workspace{grid-template-columns:180px minmax(360px,1fr) 300px}}
+.panel-reopen{position:absolute;left:0;top:50%;z-index:12;display:none;align-items:center;gap:5px;transform:translateY(-50%);padding:9px 8px 9px 6px;border:1px solid #303747;border-left:0;border-radius:0 7px 7px 0;background:#151922;color:#b9c8ff;font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;box-shadow:0 10px 30px #0006}.panel-reopen:hover{background:#202a3a;border-color:#50658d}.left-collapsed .panel-reopen{display:flex}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
 <script>
@@ -32,7 +33,7 @@ window.addEventListener('unhandledrejection',function(e){console.error(e.reason)
 </script>
 </head>
 <body>
-<div id="bootScreen" class="boot-screen" role="status" aria-live="polite"><div><div class="boot-kicker"><b>OC3D</b><span>BOOT / v3.2</span></div><strong>OpenCircuit 3D</strong><span class="boot-status">INITIALIZING WORKSPACE</span><div class="boot-loader"></div><small>WEBGL / AVR8 / SPICE</small></div></div>
+<div id="bootScreen" class="boot-screen" role="status" aria-live="polite"><div><div class="boot-kicker"><b>OC3D</b><span>BOOT / v3.2</span></div><strong>OpenCircuit 3D</strong><span id="bootStatus" class="boot-status">INITIALIZING WORKSPACE</span><div class="boot-loader"></div><small id="bootDetail">WEBGL / AVR8 / SPICE</small></div></div>
 <div id="app">
 <header class="topbar">
  <div class="brand"><div class="brand-mark">◈</div><div><strong>OpenCircuit 3D</strong><span>browser hardware lab <i id="appVersion">v3.2</i></span></div></div>
@@ -54,6 +55,7 @@ window.addEventListener('unhandledrejection',function(e){console.error(e.reason)
  </aside>
  <section class="viewport-wrap">
   <div id="viewport" tabindex="0" aria-label="3D electronics workspace"></div>
+  <button id="expandLeft" class="panel-reopen" type="button" title="Show components" aria-label="Show components">‹ Components</button>
   <div class="viewport-overlay top-left"><span id="modeBadge" class="mode-badge">SELECT</span><span id="selectionLabel">Nothing selected</span></div>
   <div class="viewport-overlay bottom-left"><span>Orbit: RMB / Alt+drag</span><span>Pan: MMB</span><span>Zoom: wheel</span><span>Move: gizmo</span></div>
   <div id="toolHint" class="tool-hint hidden">Choose first terminal</div>
@@ -79,7 +81,7 @@ window.addEventListener('unhandledrejection',function(e){console.error(e.reason)
 </main>
 <section class="console-panel"><div class="console-head"><strong>Serial / Simulator</strong><div><button id="clearConsoleBtn" class="small">Clear</button><button id="toggleConsoleBtn" class="small">Collapse</button></div></div><pre id="console"></pre></section>
 </div>
-<div id="projectMenu" class="menu hidden"><button data-action="share">Copy share URL</button><button data-action="copy">Copy project JSON</button><button data-action="paste">Paste project JSON</button><button data-action="new">New project</button></div>
+<div id="projectMenu" class="menu hidden"><div class="menu-label">PRESETS</div><button data-preset="blink">01 / Blink LED</button><button data-preset="logicLed">02 / Logic → LED</button><button data-preset="sensorLcd">03 / Sensor → LCD</button><button data-preset="potServo">04 / Pot → Servo</button><div class="menu-separator"></div><button data-action="share">Copy share URL</button><button data-action="copy">Copy project JSON</button><button data-action="paste">Paste project JSON</button><button data-action="new">New project</button></div>
 <dialog id="jsonDialog"><form method="dialog"><h3>Project JSON</h3><p>Paste a project snapshot below. Project data stays local to your browser.</p><textarea id="jsonText"></textarea><div class="dialog-actions"><button value="cancel">Cancel</button><button id="importJsonBtn" value="default" class="primary">Import</button></div></form></dialog>
 <noscript><div style="position:fixed;inset:0;z-index:10000;background:#090b10;color:white;display:grid;place-items:center;font-family:system-ui"><div>JavaScript is required to run OpenCircuit 3D.</div></div></noscript>
 <script type="module" src="./src/app.js"></script>

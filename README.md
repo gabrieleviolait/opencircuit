@@ -1,4 +1,6 @@
-# OpenCircuit 3D
+# OpenCircuit 3
+
+Use it https://opencircuit.pages.dev/
 
 OpenCircuit 3D is a browser-based electronics sandbox for building and testing
 circuits in a 3D workspace. Projects stay in the browser and can be shared

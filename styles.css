@@ -14,3 +14,5 @@ html{background:#090b10}body{min-width:760px}
 #appVersion{opacity:.65}.panel-tabs{position:relative}.tab-page{overflow:hidden}
 #codeEditor,#hexEditor{min-height:180px}.instrument-stack{min-height:0}
 @media(max-width:900px){body{min-width:0;overflow:auto}#app{min-width:760px}.workspace{grid-template-columns:180px minmax(360px,1fr) 300px}}
+.menu-label{padding:7px 8px 4px;color:#6f7d93;font:9px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.16em}.menu-separator{height:1px;margin:5px 0;background:#252b37}
+.panel-reopen{position:absolute;left:0;top:50%;z-index:12;display:none;align-items:center;gap:5px;transform:translateY(-50%);padding:9px 8px 9px 6px;border:1px solid #303747;border-left:0;border-radius:0 7px 7px 0;background:#151922;color:#b9c8ff;font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;box-shadow:0 10px 30px #0006}.panel-reopen:hover{background:#202a3a;border-color:#50658d}.left-collapsed .panel-reopen{display:flex}
