@@ -26,6 +26,7 @@ html{background:#090b10}body{min-width:760px}
 @media(max-width:900px){body{min-width:0;overflow:auto}#app{min-width:760px}.workspace{grid-template-columns:180px minmax(360px,1fr) 300px}}
 .panel-reopen{position:absolute;left:0;top:50%;z-index:12;display:none;align-items:center;gap:5px;transform:translateY(-50%);padding:9px 8px 9px 6px;border:1px solid #303747;border-left:0;border-radius:0 7px 7px 0;background:#151922;color:#b9c8ff;font:10px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;box-shadow:0 10px 30px #0006}.panel-reopen:hover{background:#202a3a;border-color:#50658d}.left-collapsed .panel-reopen{display:flex}
 </style>
+<link rel="stylesheet" href="./styles.css">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
 <script>
 window.addEventListener('error',function(e){var b=document.getElementById('bootScreen');if(b&&e.message){b.classList.add('boot-error');b.innerHTML='<div><strong>BOOT ERROR</strong><span>'+String(e.message).replace(/[<>&]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c]})+'</span><small>CHECK CDN.JSDELIVR.NET / RELOAD</small></div>'}});
@@ -39,11 +40,11 @@ window.addEventListener('unhandledrejection',function(e){console.error(e.reason)
  <div class="brand"><div class="brand-mark">◈</div><div><strong>OpenCircuit 3D</strong><span>browser hardware lab <i id="appVersion">v3.2</i></span></div></div>
  <div class="toolbar">
   <div class="toolbar-group"><button id="undoBtn" title="Undo (Ctrl+Z)">↶ Undo</button><button id="redoBtn" title="Redo (Ctrl+Y)">↷ Redo</button></div>
-  <div class="toolbar-group"><button class="primary" id="runBtn" title="Run simulation (Ctrl+Enter)">▶ Run</button><button id="stopBtn" title="Stop simulation">■ Stop</button></div>
+  <div class="toolbar-group sim-controls"><button class="sim-control run-control" id="runBtn" title="Start simulation (Ctrl+Enter)" aria-pressed="false">▶ Start</button><button class="sim-control stop-control" id="stopBtn" title="Stop simulation" disabled>■ Stop</button></div>
   <div class="toolbar-group"><button id="wireBtn" title="Wire mode (W)">⌁ Wire</button><label class="wire-color" title="New wire color"><input id="wireColor" type="color" value="#f15152"></label><button id="rotateBtn" title="Rotate selected 90° (R)">↻ Rotate</button><button id="snapBtn" class="active" title="Toggle grid/breadboard snapping (S)">⌗ Snap</button><button id="deleteBtn" title="Delete selected (Del)">⌫ Delete</button></div>
-  <div class="toolbar-group"><button id="resetViewBtn" title="Reset camera">⌂ View</button><button id="spiceBtn" title="Generate and run ngspice/WASM">∿ SPICE</button><button id="projectBtn" title="Project tools">Project ▾</button></div>
+  <div class="toolbar-group"><button id="viewBtn" title="Camera presets and view lock">⌂ View ▾</button><button id="spiceBtn" title="Generate and run ngspice/WASM">∿ SPICE</button><button id="projectBtn" title="Project tools">Project ▾</button><a class="button-link" href="./guide.html" target="_blank" rel="noopener" title="Open the learning guide">? Guide</a></div>
  </div>
- <div class="status-cluster"><span class="pill" id="statsBadge">0 parts · 0 wires</span><span class="pill" id="saveStatus">local autosave</span><span class="pill off" id="simStatus"><span class="status-dot"></span>stopped</span></div>
+ <div class="status-cluster"><span class="pill" id="statsBadge">0 parts · 0 wires</span><span class="pill" id="saveStatus">local autosave</span><span class="pill off" id="simStatus" role="status" aria-live="polite"><span class="status-dot"></span>stopped</span></div>
 </header>
 <main class="workspace">
  <aside class="sidebar left-panel">
@@ -56,13 +57,25 @@ window.addEventListener('unhandledrejection',function(e){console.error(e.reason)
  <section class="viewport-wrap">
   <div id="viewport" tabindex="0" aria-label="3D electronics workspace"></div>
   <button id="expandLeft" class="panel-reopen" type="button" title="Show components" aria-label="Show components">‹ Components</button>
-  <div class="viewport-overlay top-left"><span id="modeBadge" class="mode-badge">SELECT</span><span id="selectionLabel">Nothing selected</span></div>
-  <div class="viewport-overlay bottom-left"><span>Orbit: RMB / Alt+drag</span><span>Pan: MMB</span><span>Zoom: wheel</span><span>Move: gizmo</span></div>
+  <button id="expandRight" class="panel-reopen panel-reopen-right" type="button" title="Show result and code panel" aria-label="Show result and code panel">Result / Code ›</button>
+  <div class="viewport-overlay top-left"><span id="modeBadge" class="mode-badge">SELECT</span><span id="viewLockBadge" class="mode-badge view-lock-badge hidden">VIEW LOCKED · SPACE</span><span id="selectionLabel">Nothing selected</span></div>
+  <div class="viewport-overlay bottom-left"><span>Orbit: RMB / Alt+drag</span><span>Pan: MMB</span><span>Zoom: wheel</span><span>Move: gizmo</span><span class="interaction-hint">Inputs: click / hold</span></div>
   <div id="toolHint" class="tool-hint hidden">Choose first terminal</div>
  </section>
  <aside class="sidebar right-panel">
-  <div class="panel-tabs"><button data-tab="code" class="tab active">Code</button><button data-tab="inspect" class="tab">Inspector</button><button data-tab="instruments" class="tab">Instruments</button></div>
-  <section id="tab-code" class="tab-page active">
+  <div class="panel-tabs"><button data-tab="result" class="tab active">Result</button><button data-tab="code" class="tab">Code</button><button data-tab="inspect" class="tab">Inspector</button><button data-tab="instruments" class="tab">Tools</button><button id="collapseRight" class="panel-close-right" type="button" title="Hide result and code panel" aria-label="Hide result and code panel">›</button></div>
+  <section id="tab-result" class="tab-page active">
+   <div class="result-panel">
+    <div class="result-kicker"><span class="live-dot"></span> LIVE PRESET</div>
+    <h2 id="resultTitle">Circuit output</h2>
+    <p id="resultDescription">Run the simulation to inspect outputs here. Interactive inputs are mirrored as accessible controls.</p>
+    <div id="resultControls" class="result-controls"></div>
+    <div class="result-readout"><span>OUTPUT</span><strong id="resultPrimary">Ready</strong><small id="resultSecondary">Choose a preset from Project.</small></div>
+    <button id="resultScreen" class="virtual-display hidden" type="button" title="Click to inspect the display"><span>DISPLAY</span></button>
+    <div class="result-actions"><button id="demoRunBtn" class="sim-control run-control" aria-pressed="false">▶ Start simulation</button><a href="./guide.html#presets" target="_blank" rel="noopener">How does this work?</a></div>
+   </div>
+  </section>
+  <section id="tab-code" class="tab-page">
    <div class="editor-header"><span>Firmware</span><div class="editor-actions"><select id="runtimeMode" title="Simulation runtime"><option value="fast">Fast Arduino</option><option value="avr">AVR8js / HEX</option></select><button id="compileBtn" class="small" title="Compile Arduino C++ to AVR HEX in browser">Compile C++ → HEX</button><button id="loadBlinkBtn" class="small">Blink</button></div></div>
    <textarea id="codeEditor" spellcheck="false" autocomplete="off" aria-label="Arduino code editor"></textarea>
    <textarea id="hexEditor" class="hidden" spellcheck="false" autocomplete="off" aria-label="Intel HEX firmware"></textarea>
@@ -82,7 +95,9 @@ window.addEventListener('unhandledrejection',function(e){console.error(e.reason)
 <section class="console-panel"><div class="console-head"><strong>Serial / Simulator</strong><div><button id="clearConsoleBtn" class="small">Clear</button><button id="toggleConsoleBtn" class="small">Collapse</button></div></div><pre id="console"></pre></section>
 </div>
 <div id="projectMenu" class="menu hidden"><div class="menu-label">PRESETS</div><button data-preset="blink">01 / Blink LED</button><button data-preset="logicLed">02 / Logic → LED</button><button data-preset="sensorLcd">03 / Sensor → LCD</button><button data-preset="potServo">04 / Pot → Servo</button><div class="menu-separator"></div><button data-action="share">Copy share URL</button><button data-action="copy">Copy project JSON</button><button data-action="paste">Paste project JSON</button><button data-action="new">New project</button></div>
+<div id="viewMenu" class="menu view-menu hidden"><div class="menu-label">QUICK VIEWS</div><button data-view="3d">◇ Angled 3D view</button><button data-view="top">▦ Top view</button><div class="menu-separator"></div><button id="viewLockBtn" data-view="lock">▢ Lock 3D view</button><div class="view-shortcut"><kbd>Space</kbd><span><strong>Lock / unlock view</strong>Prevents accidental orbit, pan and zoom while components remain interactive.</span></div></div>
 <dialog id="jsonDialog"><form method="dialog"><h3>Project JSON</h3><p>Paste a project snapshot below. Project data stays local to your browser.</p><textarea id="jsonText"></textarea><div class="dialog-actions"><button value="cancel">Cancel</button><button id="importJsonBtn" value="default" class="primary">Import</button></div></form></dialog>
+<dialog id="displayDialog" class="display-dialog"><form method="dialog"><div class="display-dialog-head"><div><small>VIRTUAL DISPLAY</small><h3 id="displayDialogTitle">Display</h3></div><button value="cancel" aria-label="Close display">×</button></div><div id="displayDialogScreen" class="virtual-display enlarged"><span>DISPLAY</span></div><p>The same text is rendered on the component in the 3D scene. Edit it from Inspector or let the running firmware update it.</p></form></dialog>
 <noscript><div style="position:fixed;inset:0;z-index:10000;background:#090b10;color:white;display:grid;place-items:center;font-family:system-ui"><div>JavaScript is required to run OpenCircuit 3D.</div></div></noscript>
 <script type="module" src="./src/app.js"></script>
 </body></html>

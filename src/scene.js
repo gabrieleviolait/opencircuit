@@ -5,19 +5,21 @@ import {createPart} from "./parts.js";
 
 export class Scene3D{
  constructor(container,callbacks={}){
-  this.container=container;this.callbacks=callbacks;this.parts=new Map();this.wires=[];this.selected=null;this.selectedWire=null;this.mode="select";this.pendingTerminal=null;this.snapEnabled=true;this.wireColor=0xef5350;
+  this.container=container;this.callbacks=callbacks;this.parts=new Map();this.wires=[];this.selected=null;this.selectedWire=null;this.mode="select";this.pendingTerminal=null;this.snapEnabled=true;this.viewLocked=false;this.viewPreset="3d";this.wireColor=0xef5350;
   this.scene=new THREE.Scene();this.scene.background=new THREE.Color(0x080a0e);this.scene.fog=new THREE.Fog(0x080a0e,18,55);
   this.camera=new THREE.PerspectiveCamera(48,1,.05,120);this.camera.position.set(7,7,9);
   this.renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:"high-performance"});this.renderer.setPixelRatio(Math.min(devicePixelRatio,2));this.renderer.shadowMap.enabled=true;this.renderer.shadowMap.type=THREE.PCFSoftShadowMap;container.appendChild(this.renderer.domElement);
   this.orbit=new OrbitControls(this.camera,this.renderer.domElement);this.orbit.enableDamping=true;this.orbit.dampingFactor=.08;this.orbit.target.set(0,0,0);
   this.transform=new TransformControls(this.camera,this.renderer.domElement);this.transform.setMode("translate");this.transform.setSpace("world");this.transform.showY=false;this.scene.add(this.transform.getHelper());
-  this.transform.addEventListener("dragging-changed",e=>{this.orbit.enabled=!e.value;if(!e.value&&this.selected){if(this.snapEnabled)this.snapPart(this.selected);this.updateWires();this.callbacks.onTransformEnd?.(this.selected);this.callbacks.onChanged?.("transform")}});this.transform.addEventListener("objectChange",()=>this.updateWires());
+  this.transform.addEventListener("dragging-changed",e=>{this.orbit.enabled=!e.value&&!this.viewLocked;if(!e.value&&this.selected){if(this.snapEnabled)this.snapPart(this.selected);this.updateWires();this.callbacks.onTransformEnd?.(this.selected);this.callbacks.onChanged?.("transform")}});this.transform.addEventListener("objectChange",()=>this.updateWires());
   this.scene.add(new THREE.HemisphereLight(0xcad8ff,0x101017,1.5));const key=new THREE.DirectionalLight(0xffffff,2.2);key.position.set(6,10,4);key.castShadow=true;key.shadow.mapSize.set(2048,2048);key.shadow.camera.left=-12;key.shadow.camera.right=12;key.shadow.camera.top=12;key.shadow.camera.bottom=-12;this.scene.add(key);const rim=new THREE.DirectionalLight(0x6d8cff,.65);rim.position.set(-8,5,-7);this.scene.add(rim);
   const ground=new THREE.Mesh(new THREE.PlaneGeometry(60,60),new THREE.MeshStandardMaterial({color:0x0c0f14,roughness:.95,metalness:.03}));ground.rotation.x=-Math.PI/2;ground.position.y=-.13;ground.receiveShadow=true;ground.userData.kind="ground";this.scene.add(ground);const grid=new THREE.GridHelper(60,120,0x263040,0x151b24);grid.position.y=-.125;this.scene.add(grid);
   this.raycaster=new THREE.Raycaster();this.pointer=new THREE.Vector2();this.renderer.domElement.addEventListener("pointerdown",e=>this.onPointerDown(e));window.addEventListener("resize",()=>this.resize());this.resize();this.clock=new THREE.Clock();this.animate();
  }
  resize(){const w=this.container.clientWidth,h=this.container.clientHeight;if(!w||!h)return;this.camera.aspect=w/h;this.camera.updateProjectionMatrix();this.renderer.setSize(w,h,false)}
- resetView(){this.camera.position.set(7,7,9);this.orbit.target.set(0,0,0);this.orbit.update()}
+ resetView(){this.setView("3d")}
+ setView(preset="3d"){this.viewPreset=preset;this.orbit.target.set(0,0,0);if(preset==="top")this.camera.position.set(0,14,.001);else this.camera.position.set(7,7,9);this.camera.up.set(0,1,0);this.camera.lookAt(this.orbit.target);this.orbit.update();this.callbacks.onViewChanged?.(preset)}
+ setViewLocked(locked){this.viewLocked=!!locked;this.orbit.enabled=!this.viewLocked;this.callbacks.onViewLock?.(this.viewLocked);return this.viewLocked}
  setMode(mode){this.mode=mode;this.pendingTerminal=null;this.transform.detach();this.highlightTerminals(mode!=="select");this.callbacks.onMode?.(mode)}
  setWireColor(hex){this.wireColor=typeof hex==="string"?parseInt(hex.replace("#",""),16):hex}
  highlightTerminals(on){for(const p of this.parts.values())for(const t of Object.values(p.userData.terminals)){t.material.emissive.setHex(on?0x263b68:0);t.material.emissiveIntensity=on?.7:0}}

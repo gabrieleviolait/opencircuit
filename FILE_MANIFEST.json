@@ -2,39 +2,39 @@
   "build": "3.2",
   "files": [
     {
-      "path": "LICENSE",
-      "bytes": 502,
-      "sha256": "0aa619f3f0cbdb46ed30748445d40db66294c611d4e55a4ed3c49aca89ecb95d"
-    },
-    {
-      "path": "README.md",
-      "bytes": 2090,
-      "sha256": "97af4041902dc509f69750dfddbd7c40398171d6cd32a4e2d467cf053145f865"
-    },
-    {
-      "path": "THIRD_PARTY.md",
-      "bytes": 1371,
-      "sha256": "0d76c892cd57d279cf05c0d983b840a3dc9530d4844e1e672c830c93e9226e4a"
-    },
-    {
       "path": "_headers",
       "bytes": 167,
       "sha256": "4a99e74597f8bae83a1a8ed4e99393993549eb38df653361e80ebe01f285b9cc"
     },
     {
       "path": "app.bundle.js",
-      "bytes": 74920,
-      "sha256": "542a11c8d7a9a3a61a1da775aa8dd3a6424c57f33f709679ae5f1e5056271976"
+      "bytes": 84920,
+      "sha256": "1e581a85cd1320cb419b9725ea534ceaa85f86bb4165d2e0ed2a8ac196b72151"
+    },
+    {
+      "path": "guide.html",
+      "bytes": 8204,
+      "sha256": "9abd7186fa43dae02eb531d1a6db83e2e53c22d389439f86ba610619b21935ed"
     },
     {
       "path": "index.dev.html",
-      "bytes": 20546,
-      "sha256": "dee5bf1a52f4806aec31fb5103996ebeac3e1bfd58fb38b25bb4227135735100"
+      "bytes": 23293,
+      "sha256": "f0c0101e637b48ee1639515c8420184354320861a4b36ac0122df67270cc67dd"
     },
     {
       "path": "index.html",
-      "bytes": 95447,
-      "sha256": "f6e249e39db47f7fdadd542ee54c8228304712daf76f7b71da168131a77bd81f"
+      "bytes": 113910,
+      "sha256": "326c0a002ef0b50613d81bb1c439c2b66ef1080533399513c2229982b594dea5"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 502,
+      "sha256": "0aa619f3f0cbdb46ed30748445d40db66294c611d4e55a4ed3c49aca89ecb95d"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2493,
+      "sha256": "6b9f846ddd13017a81fb7282c539f6942315744abba5238f1667fe0d1b79e703"
     },
     {
       "path": "serve.py",
@@ -43,8 +43,8 @@
     },
     {
       "path": "src/app.js",
-      "bytes": 24052,
-      "sha256": "1d5e175435ad4a00765662b9e340283aee2a8e63806c364e156de0f59e19d9a5"
+      "bytes": 33554,
+      "sha256": "fcb40064304676bd3d16a070a163b551d3437b81d2a79f9f55e3696a643fcb83"
     },
     {
       "path": "src/arduino.js",
@@ -73,8 +73,8 @@
     },
     {
       "path": "src/scene.js",
-      "bytes": 10261,
-      "sha256": "d378f5d448be7bb664a0de62590d5f4726206a93b4109fd8b8ac59e530ce0406"
+      "bytes": 10702,
+      "sha256": "71d473a3a0526f1b95269f81c905a13c3bc12783d59e53436dcd1894252431e3"
     },
     {
       "path": "src/share.js",
@@ -93,8 +93,13 @@
     },
     {
       "path": "styles.css",
-      "bytes": 11651,
-      "sha256": "8547d05896098a5d558c2e1f6eed1a70f6587670a62336fd7897c0354d556644"
+      "bytes": 17409,
+      "sha256": "9549b09b73d6ec21c1fb59208c70b7fd810ee17fc8819c0a278ae33d663b728d"
+    },
+    {
+      "path": "THIRD_PARTY.md",
+      "bytes": 1371,
+      "sha256": "0d76c892cd57d279cf05c0d983b840a3dc9530d4844e1e672c830c93e9226e4a"
     }
   ]
 }

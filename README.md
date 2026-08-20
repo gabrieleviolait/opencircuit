@@ -15,6 +15,12 @@ through a compressed URL, so there are no accounts or server-side saves.
 - Adjustable wire colors, grid snapping, rotation and undo/redo
 - Arduino-style code execution and optional Intel HEX firmware support
 - A lightweight live circuit solver with an optional ngspice/WASM backend
+- Auto-running interactive presets with a live Result panel and enlarged display previews
+
+Tactile switches can be held directly in the 3D scene, logic sources toggle on
+click, and preset sensors/potentiometers have accessible controls in the Result
+tab. The in-app [learning guide](guide.html) explains the preset workflow, the
+languages used, and why the fast runtime, AVR8js and SPICE paths coexist.
 
 ## Firmware
 
