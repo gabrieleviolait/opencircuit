@@ -23,18 +23,18 @@
     },
     {
       "path": "app.bundle.js",
-      "bytes": 69988,
-      "sha256": "97ece99e3d6e7341ee6960053308cedbe6b316dedc39fe196e59e7bc3a4dae68"
+      "bytes": 69891,
+      "sha256": "62029b9cd72b49f81d506f860b6a36687791bd79741ba7b8015b6e8371a11968"
     },
     {
       "path": "index.dev.html",
-      "bytes": 18611,
-      "sha256": "44203989e04f6312fda1e5608c20b4016eae24309b4c8d89c4fc4b46ff6fc701"
+      "bytes": 19445,
+      "sha256": "c86f9587eee784b06ad6046457b164c94736b7fbfe0ac7aeed45da47a30905f5"
     },
     {
       "path": "index.html",
-      "bytes": 88580,
-      "sha256": "d0b628b1c4f69c5c3af13d988848f3edced52d97456bbf4b06780692ad6331ef"
+      "bytes": 89317,
+      "sha256": "81a75c17cbc71516d75a23d451ebcf01792bb81fa1ab15e9cb51bde19dcec377"
     },
     {
       "path": "serve.py",
@@ -43,8 +43,8 @@
     },
     {
       "path": "src/app.js",
-      "bytes": 19035,
-      "sha256": "01ae96c55de5d0511da7ebdbc6576e04092bec56bae0eb88e7a077f704e33a07"
+      "bytes": 18938,
+      "sha256": "510658a4118030823bb03845f8fc22320f8c68b8529593a496b37c8d8bb547f5"
     },
     {
       "path": "src/arduino.js",
@@ -93,8 +93,8 @@
     },
     {
       "path": "styles.css",
-      "bytes": 10181,
-      "sha256": "5ceef51c2630366aeb31a9ab957d9a693986098777c22f70005a5cae135ccde5"
+      "bytes": 11017,
+      "sha256": "66746392eeb734d312b1a3a20e75dbc530a059f6d34c107d77aaebacc0eb2759"
     }
   ]
 }
