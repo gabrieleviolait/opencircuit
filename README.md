@@ -23,7 +23,7 @@ and is not affiliated with the former Diode product.
 - A lightweight live circuit solver with an optional ngspice/WASM backend
 - Auto-running interactive presets with a live Result panel and enlarged display previews
 - Classic / Diode-style simplified workspace mode
-- Classic lab presets including Arduino Blink, LED & Switch, Sensor → LCD and Pot → Servo
+- Rebuilt Classic labs: Arduino Blink, LED & Switch, NPN transistor, PNP transistor, NAND gate, NE555 astable, Slow Fade LED, Sensor → LCD and Pot → Servo
 - Local Fork / duplicate workflow without accounts
 - Embeddable project iframe snippets
 - Responsive mobile/tablet drawers for Parts and Lab panels
@@ -40,6 +40,11 @@ the underlying circuit, editor and simulation state. Switching back to the full
 workspace restores the advanced tools immediately. This gives former Diode-style
 users a low-friction starting point without creating a separate or reduced
 simulator.
+
+The rebuilt Classic circuits are new OpenCircuit implementations rather than
+copies of Diode source code or assets. They reproduce useful learning workflows
+such as transistor switching, NAND logic, an astable NE555 oscillator and PWM LED
+fading.
 
 Projects can also be duplicated locally (Fork) and embedded in other pages. No
 account is required for either workflow.
@@ -58,8 +63,13 @@ sending source code to a server.
 
 OpenCircuit aims to be useful for learning and prototyping, not to replace a
 bench or a full electrical simulator. Uno and Nano have an AVR emulation path;
-Mega, ESP32 and Pico currently use the faster behavioral runtime. Transistors,
-MOSFETs and the NE555 also use simplified models during live simulation.
+Mega, ESP32 and Pico currently use the faster behavioral runtime.
+
+The live BJT model now transitions progressively between cutoff and conduction
+instead of relying on a single hard threshold. The NE555 model includes reset,
+1/3–2/3 threshold hysteresis, discharge behavior and support for the control
+voltage pin. These are still behavioral educational models rather than
+transistor-level device simulations.
 
 For circuits that need a more traditional SPICE analysis, the instruments
 panel includes an optional ngspice/WASM backend.
