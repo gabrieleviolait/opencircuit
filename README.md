@@ -6,6 +6,12 @@ OpenCircuit 3D is a browser-based electronics sandbox for building and testing
 circuits in a 3D workspace. Projects stay in the browser and can be shared
 through a compressed URL, so there are no accounts or server-side saves.
 
+OpenCircuit also includes a **Classic / Diode-style mode** designed for people
+who miss the simple workflow of the former Diode browser simulator. It keeps the
+familiar build → wire → program → simulate experience while leaving the full
+OpenCircuit toolset available at any time. OpenCircuit is an independent project
+and is not affiliated with the former Diode product.
+
 ## What is included
 
 - Breadboards, power sources and common electronic components
@@ -16,11 +22,27 @@ through a compressed URL, so there are no accounts or server-side saves.
 - Arduino-style code execution and optional Intel HEX firmware support
 - A lightweight live circuit solver with an optional ngspice/WASM backend
 - Auto-running interactive presets with a live Result panel and enlarged display previews
+- Classic / Diode-style simplified workspace mode
+- Classic lab presets including Arduino Blink, LED & Switch, Sensor → LCD and Pot → Servo
+- Local Fork / duplicate workflow without accounts
+- Embeddable project iframe snippets
+- Responsive mobile/tablet drawers for Parts and Lab panels
 
 Tactile switches can be held directly in the 3D scene, logic sources toggle on
 click, and preset sensors/potentiometers have accessible controls in the Result
 tab. The in-app [learning guide](guide.html) explains the preset workflow, the
 languages used, and why the fast runtime, AVR8js and SPICE paths coexist.
+
+## Classic continuity mode
+
+Classic mode deliberately hides some laboratory-only controls while preserving
+the underlying circuit, editor and simulation state. Switching back to the full
+workspace restores the advanced tools immediately. This gives former Diode-style
+users a low-friction starting point without creating a separate or reduced
+simulator.
+
+Projects can also be duplicated locally (Fork) and embedded in other pages. No
+account is required for either workflow.
 
 ## Firmware
 
