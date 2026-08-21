@@ -50,6 +50,17 @@ public CDNs. The main dependencies are Three.js, AVR8js,
 
 Third-party licenses and notices are listed in [THIRD_PARTY.md](THIRD_PARTY.md).
 
+## Credits
+
+[gabrieleviola.it](https://gabrieleviola.it)
+
+## Legal documents
+
+- [Privacy Policy](privacy.html)
+- [Cookie Policy](cookies.html)
+- [Terms of use](terms.html)
+- [Legal notice and accessibility](legal.html)
+
 ## License
 
 OpenCircuit 3D is released under the MIT License. Bundled and externally loaded

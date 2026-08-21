@@ -61,6 +61,8 @@ body{min-width:0}#app{width:100vw;max-width:100%;min-width:0;overflow:hidden}.to
 /* Runtime status lives with the Serial / Simulator controls. */
 .console-head{gap:12px}.console-head>strong{flex:0 0 auto}.console-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0}.console-head .status-cluster{display:flex!important;align-items:center;gap:5px;min-width:0;overflow-x:auto;scrollbar-width:none}.console-head .status-cluster::-webkit-scrollbar{display:none}.console-head .pill{display:inline-flex!important;align-items:center;flex:0 0 auto;min-height:23px;padding:3px 8px}.console-buttons{display:flex;flex:0 0 auto;gap:4px}
 @media(max-width:700px){.console-head{gap:6px;padding-inline:7px}.console-head>strong{display:none}.console-actions{width:100%}.console-head .status-cluster{flex:1}.console-head .pill{font-size:8px;padding-inline:6px}.console-buttons button{font-size:9px;padding:4px 6px}}
+.credit-link{color:inherit;text-decoration:none}.credit-link:hover,.credit-link:focus-visible{color:#b9c8ff;text-decoration:underline}
+.legal-links{display:flex;flex-wrap:wrap;gap:4px 8px;margin-top:8px;padding-top:7px;border-top:1px solid #252b37}.legal-links a{color:#8290a8;text-decoration:none}.legal-links a:hover,.legal-links a:focus-visible{color:#b9c8ff;text-decoration:underline}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
 <script>
@@ -72,7 +74,7 @@ window.addEventListener('unhandledrejection',function(e){console.error(e.reason)
 <div id="bootScreen" class="boot-screen" role="status" aria-live="polite"><div><div class="boot-kicker"><b>OC3D</b><span>BOOT / v3.2</span></div><strong>OpenCircuit 3D</strong><span id="bootStatus" class="boot-status">INITIALIZING WORKSPACE</span><div class="boot-loader"></div><small id="bootDetail">WEBGL / AVR8 / SPICE</small></div></div>
 <div id="app">
 <header class="topbar">
- <div class="brand"><div class="brand-mark">◈</div><div><strong>OpenCircuit 3D</strong><span>browser hardware lab <i id="appVersion">v3.2</i></span></div></div>
+ <div class="brand"><div class="brand-mark">◈</div><div><strong>OpenCircuit 3D</strong><span>browser hardware lab <i id="appVersion">v3.2</i> · credits <a class="credit-link" href="https://gabrieleviola.it" target="_blank" rel="author noopener">gabrieleviola.it</a></span></div></div>
  <div class="toolbar">
   <div class="toolbar-group"><button id="undoBtn" title="Undo (Ctrl+Z)">↶ Undo</button><button id="redoBtn" title="Redo (Ctrl+Y)">↷ Redo</button></div>
   <div class="toolbar-group sim-controls"><button class="sim-control run-control" id="runBtn" title="Start simulation (Ctrl+Enter)" aria-pressed="false">▶ Start</button><button class="sim-control stop-control" id="stopBtn" title="Stop simulation" disabled>■ Stop</button></div>
@@ -86,7 +88,7 @@ window.addEventListener('unhandledrejection',function(e){console.error(e.reason)
   <input id="partSearch" class="search" placeholder="Search components…" autocomplete="off">
   <div id="categoryChips" class="category-chips"></div>
   <div id="partsList" class="parts-list"></div>
-  <div class="side-help"><strong>Tip</strong> Drag a part into the scene. Press <kbd>W</kbd> and click two terminals to wire them. <kbd>R</kbd> rotates; <kbd>S</kbd> toggles snap.</div>
+  <div class="side-help"><strong>Tip</strong> Drag a part into the scene. Press <kbd>W</kbd> and click two terminals to wire them. <kbd>R</kbd> rotates; <kbd>S</kbd> toggles snap.<nav class="legal-links" aria-label="Legal information"><a href="./privacy.html" target="_blank" rel="noopener">Privacy</a><a href="./cookies.html" target="_blank" rel="noopener">Cookie</a><a href="./terms.html" target="_blank" rel="noopener">Terms</a><a href="./legal.html" target="_blank" rel="noopener">Legal</a></nav></div>
  </aside>
  <section class="viewport-wrap">
   <div id="viewport" tabindex="0" aria-label="3D electronics workspace"></div>

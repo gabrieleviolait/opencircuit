@@ -12,19 +12,34 @@
       "sha256": "50d0d18650dc3387c71099eec7e4d1cca196b0d1cb80d0adf6c142be40bb4102"
     },
     {
+      "path": "cookies.html",
+      "bytes": 4506,
+      "sha256": "4d0ca77319aceb724e3a0cae984ba0a063783a8ae4916639fb26f194a1bfafc4"
+    },
+    {
       "path": "guide.html",
-      "bytes": 8204,
-      "sha256": "9abd7186fa43dae02eb531d1a6db83e2e53c22d389439f86ba610619b21935ed"
+      "bytes": 8469,
+      "sha256": "199ae54a176c052fdf508e588da0b84cd1985d92ee6dc32595bc2931586781da"
     },
     {
       "path": "index.dev.html",
-      "bytes": 24400,
-      "sha256": "b5921a9b26e477a0c73b41d20851e2a9d2cb3799bf11b7c020f9b31986f44536"
+      "bytes": 24846,
+      "sha256": "9a0e8f05cd3fdedbaf7b88c01a73944d924203cfdcb7e94574f2e88e6690b5e9"
     },
     {
       "path": "index.html",
-      "bytes": 144285,
-      "sha256": "f6031e7ddc31be662afecdc9fdbf580cd892871039f81cf246efda22d473e633"
+      "bytes": 145120,
+      "sha256": "60c8ebb649d5006a97846ce8000b837899eabbd3b50aff41f679372d96e2f0b7"
+    },
+    {
+      "path": "legal.css",
+      "bytes": 3867,
+      "sha256": "c3c6fa52e44a88c82449f7b4abe2d58de504a800a3a6d507384a3c1c7b742291"
+    },
+    {
+      "path": "legal.html",
+      "bytes": 4547,
+      "sha256": "c97923098554f7399b1f1d173af0e87ef11fb3f9be12e3bfb4b88a97cfdc2a11"
     },
     {
       "path": "LICENSE",
@@ -33,8 +48,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 2493,
-      "sha256": "6b9f846ddd13017a81fb7282c539f6942315744abba5238f1667fe0d1b79e703"
+      "bytes": 2713,
+      "sha256": "63e82fd5088468b7d82ddf738b28d738c4b024a7358fa706af6cef36d91ba725"
+    },
+    {
+      "path": "privacy.html",
+      "bytes": 7399,
+      "sha256": "6a5eaed509a2488e91008d79c01cf6dbc95f5f3b1632f99cb3e660b34bef3164"
     },
     {
       "path": "serve.py",
@@ -93,8 +113,13 @@
     },
     {
       "path": "styles.css",
-      "bytes": 24841,
-      "sha256": "e87b35f717926fa54ac9584bb34395148989c841db18b0ec16ea52c6e557c548"
+      "bytes": 25230,
+      "sha256": "521e3b3072e392f30351d62f5f3e4d263a32caed9a7220a18e79994b673109c7"
+    },
+    {
+      "path": "terms.html",
+      "bytes": 5858,
+      "sha256": "8bc26501f0d88ffa9ac1cbb50927c1ed04cc062e3d8c4aa907ba5dfa1f92bc3a"
     },
     {
       "path": "THIRD_PARTY.md",

@@ -37,7 +37,7 @@ window.addEventListener('unhandledrejection',function(e){console.error(e.reason)
 <div id="bootScreen" class="boot-screen" role="status" aria-live="polite"><div><div class="boot-kicker"><b>OC3D</b><span>BOOT / v3.2</span></div><strong>OpenCircuit 3D</strong><span id="bootStatus" class="boot-status">INITIALIZING WORKSPACE</span><div class="boot-loader"></div><small id="bootDetail">WEBGL / AVR8 / SPICE</small></div></div>
 <div id="app">
 <header class="topbar">
- <div class="brand"><div class="brand-mark">◈</div><div><strong>OpenCircuit 3D</strong><span>browser hardware lab <i id="appVersion">v3.2</i></span></div></div>
+ <div class="brand"><div class="brand-mark">◈</div><div><strong>OpenCircuit 3D</strong><span>browser hardware lab <i id="appVersion">v3.2</i> · credits <a class="credit-link" href="https://gabrieleviola.it" target="_blank" rel="author noopener">gabrieleviola.it</a></span></div></div>
  <div class="toolbar">
   <div class="toolbar-group"><button id="undoBtn" title="Undo (Ctrl+Z)">↶ Undo</button><button id="redoBtn" title="Redo (Ctrl+Y)">↷ Redo</button></div>
   <div class="toolbar-group sim-controls"><button class="sim-control run-control" id="runBtn" title="Start simulation (Ctrl+Enter)" aria-pressed="false">▶ Start</button><button class="sim-control stop-control" id="stopBtn" title="Stop simulation" disabled>■ Stop</button></div>
@@ -51,7 +51,7 @@ window.addEventListener('unhandledrejection',function(e){console.error(e.reason)
   <input id="partSearch" class="search" placeholder="Search components…" autocomplete="off">
   <div id="categoryChips" class="category-chips"></div>
   <div id="partsList" class="parts-list"></div>
-  <div class="side-help"><strong>Tip</strong> Drag a part into the scene. Press <kbd>W</kbd> and click two terminals to wire them. <kbd>R</kbd> rotates; <kbd>S</kbd> toggles snap.</div>
+  <div class="side-help"><strong>Tip</strong> Drag a part into the scene. Press <kbd>W</kbd> and click two terminals to wire them. <kbd>R</kbd> rotates; <kbd>S</kbd> toggles snap.<nav class="legal-links" aria-label="Legal information"><a href="./privacy.html" target="_blank" rel="noopener">Privacy</a><a href="./cookies.html" target="_blank" rel="noopener">Cookie</a><a href="./terms.html" target="_blank" rel="noopener">Terms</a><a href="./legal.html" target="_blank" rel="noopener">Legal</a></nav></div>
  </aside>
  <section class="viewport-wrap">
   <div id="viewport" tabindex="0" aria-label="3D electronics workspace"></div>
