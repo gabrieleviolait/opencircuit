@@ -41,10 +41,9 @@ window.addEventListener('unhandledrejection',function(e){console.error(e.reason)
  <div class="toolbar">
   <div class="toolbar-group"><button id="undoBtn" title="Undo (Ctrl+Z)">↶ Undo</button><button id="redoBtn" title="Redo (Ctrl+Y)">↷ Redo</button></div>
   <div class="toolbar-group sim-controls"><button class="sim-control run-control" id="runBtn" title="Start simulation (Ctrl+Enter)" aria-pressed="false">▶ Start</button><button class="sim-control stop-control" id="stopBtn" title="Stop simulation" disabled>■ Stop</button></div>
-  <div class="toolbar-group"><button id="wireBtn" title="Wire mode (W)">⌁ Wire</button><label class="wire-color" title="New wire color"><input id="wireColor" type="color" value="#f15152"></label><button id="rotateBtn" title="Rotate selected 90° (R)">↻ Rotate</button><button id="snapBtn" class="active" title="Toggle grid/breadboard snapping (S)">⌗ Snap</button><button id="deleteBtn" title="Delete selected (Del)">⌫ Delete</button></div>
+  <div class="toolbar-group"><button id="wireBtn" title="Wire mode (W)">⌁ Wire</button><label class="wire-color" title="New wire color"><input id="wireColor" type="color" value="#f15152"></label><button id="fixMissingBtn" class="fix-missing-control" title="Complete missing connections and correct component placement">⚡ Fix missing</button><button id="rotateBtn" title="Rotate selected 90° (R)">↻ Rotate</button><button id="snapBtn" class="active" title="Toggle grid/breadboard snapping (S)">⌗ Snap</button><button id="deleteBtn" title="Delete selected (Del)">⌫ Delete</button></div>
   <div class="toolbar-group"><button id="viewBtn" title="Camera presets and view lock">⌂ View ▾</button><button id="spiceBtn" title="Generate and run ngspice/WASM">∿ SPICE</button><button id="projectBtn" title="Project tools">Project ▾</button><a class="button-link" href="./guide.html" target="_blank" rel="noopener" title="Open the learning guide">? Guide</a></div>
  </div>
- <div class="status-cluster"><span class="pill" id="statsBadge">0 parts · 0 wires</span><span class="pill" id="saveStatus">local autosave</span><span class="pill off" id="simStatus" role="status" aria-live="polite"><span class="status-dot"></span>stopped</span></div>
 </header>
 <main class="workspace">
  <aside class="sidebar left-panel">
@@ -59,7 +58,9 @@ window.addEventListener('unhandledrejection',function(e){console.error(e.reason)
   <button id="expandLeft" class="panel-reopen" type="button" title="Show components" aria-label="Show components">‹ Components</button>
   <button id="expandRight" class="panel-reopen panel-reopen-right" type="button" title="Show result and code panel" aria-label="Show result and code panel">Result / Code ›</button>
   <div class="viewport-overlay top-left"><span id="modeBadge" class="mode-badge">SELECT</span><span id="viewLockBadge" class="mode-badge view-lock-badge hidden">VIEW LOCKED · SPACE</span><span id="selectionLabel">Nothing selected</span></div>
+  <div id="firmwarePinMap" class="firmware-pin-map hidden" aria-label="Firmware pin assignments"></div>
   <div class="viewport-overlay bottom-left"><span>Orbit: RMB / Alt+drag</span><span>Pan: MMB</span><span>Zoom: wheel</span><span>Move: gizmo</span><span class="interaction-hint">Inputs: click / hold</span></div>
+  <div class="pin-legend" aria-label="Pin status legend"><strong>PIN STATUS</strong><span><i class="pin-available"></i>Available</span><span><i class="pin-connected"></i>Connected</span><span><i class="pin-unavailable"></i>Unavailable</span></div>
   <div id="toolHint" class="tool-hint hidden">Choose first terminal</div>
  </section>
  <aside class="sidebar right-panel">
@@ -71,6 +72,12 @@ window.addEventListener('unhandledrejection',function(e){console.error(e.reason)
     <p id="resultDescription">Run the simulation to inspect outputs here. Interactive inputs are mirrored as accessible controls.</p>
     <div id="resultControls" class="result-controls"></div>
     <div class="result-readout"><span>OUTPUT</span><strong id="resultPrimary">Ready</strong><small id="resultSecondary">Choose a preset from Project.</small></div>
+    <div class="technical-output" aria-label="Live technical measurements">
+     <div class="technical-output-title"><span>LIVE MEASUREMENTS</span><small id="resultRuntime">STOPPED</small></div>
+     <dl><div><dt>Supply</dt><dd id="resultSupply">0.00 V</dd></div><div><dt>Signal</dt><dd id="resultSignal">—</dd></div><div><dt>Integrity</dt><dd id="resultIntegrity">Ready</dd></div></dl>
+     <p id="resultPinMap">Pin map ready.</p>
+    </div>
+    <div id="fixReport" class="fix-report hidden" role="status" aria-live="polite"></div>
     <button id="resultScreen" class="virtual-display hidden" type="button" title="Click to inspect the display"><span>DISPLAY</span></button>
     <div class="result-actions"><button id="demoRunBtn" class="sim-control run-control" aria-pressed="false">▶ Start simulation</button><a href="./guide.html#presets" target="_blank" rel="noopener">How does this work?</a></div>
    </div>
@@ -92,7 +99,7 @@ window.addEventListener('unhandledrejection',function(e){console.error(e.reason)
   </section>
  </aside>
 </main>
-<section class="console-panel"><div class="console-head"><strong>Serial / Simulator</strong><div><button id="clearConsoleBtn" class="small">Clear</button><button id="toggleConsoleBtn" class="small">Collapse</button></div></div><pre id="console"></pre></section>
+<section class="console-panel"><div class="console-head"><strong>Serial / Simulator</strong><div class="console-actions"><div class="status-cluster console-status"><span class="pill" id="statsBadge">0 parts · 0 wires</span><span class="pill" id="saveStatus">local autosave</span><span class="pill off" id="simStatus" role="status" aria-live="polite"><span class="status-dot"></span>stopped</span></div><div class="console-buttons"><button id="clearConsoleBtn" class="small">Clear</button><button id="toggleConsoleBtn" class="small">Collapse</button></div></div></div><pre id="console"></pre></section>
 </div>
 <div id="projectMenu" class="menu hidden"><div class="menu-label">PRESETS</div><button data-preset="blink">01 / Blink LED</button><button data-preset="logicLed">02 / Logic → LED</button><button data-preset="sensorLcd">03 / Sensor → LCD</button><button data-preset="potServo">04 / Pot → Servo</button><div class="menu-separator"></div><button data-action="share">Copy share URL</button><button data-action="copy">Copy project JSON</button><button data-action="paste">Paste project JSON</button><button data-action="new">New project</button></div>
 <div id="viewMenu" class="menu view-menu hidden"><div class="menu-label">QUICK VIEWS</div><button data-view="3d">◇ Angled 3D view</button><button data-view="top">▦ Top view</button><div class="menu-separator"></div><button id="viewLockBtn" data-view="lock">▢ Lock 3D view</button><div class="view-shortcut"><kbd>Space</kbd><span><strong>Lock / unlock view</strong>Prevents accidental orbit, pan and zoom while components remain interactive.</span></div></div>
